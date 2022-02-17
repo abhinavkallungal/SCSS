@@ -1,0 +1,140 @@
+@import './reset';
+@import './variables';
+
+
+
+@function weigth($weight-name){
+    @return map-gte($font-weights, $weight-name)
+};
+
+//Mixin
+
+@mixin flexCenter($direction) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: $direction;
+};
+
+@mixin  theme($light-theme:true) {
+
+    // Conditionals
+    @if $light-theme {
+        background: lighten( $primary-color,100%);
+        color: darken($text-color,100%);
+    }@else if $light-theme == false{
+
+        background: lighten( $primary-color,100%);
+        color: darken($text-color,100%);
+
+    } @else{
+        background: lighten( $primary-color,100%);
+        color: darken($text-color,100%);
+    }
+    
+}
+
+
+
+@mixin mobile {
+    @media(max-width: $mobile){
+        @content 
+    }
+    
+}
+
+@mixin  red {
+
+    color: #d23e3e;
+    
+}
+
+body {
+    background-color: $primary-color;
+}
+
+//Nexting
+
+.main{
+    background-color: #d23e3e;
+    font-weight: 500;
+    width: calc(80%- 20%);
+    p{
+        @include flexCenter(row);             // @include flexCenter(column);
+        color:$secondory-color  ;
+    }
+    
+    #{&}__paragraph{
+        font-weight: map-get($font-weights , bold);
+        
+        &:hover{
+            color:pink;
+           // font-weight: weigth(regular);
+        }
+        
+    }
+
+    @include mobile{
+        flex-direction: column;
+    }
+}
+.ligth{
+    @include theme($light-theme :false)     // @include theme($light-theme :true)
+
+}
+
+//extend
+
+
+%message-shared{
+    border: 1px solid #d23e3e;
+}
+
+.message{
+    @extend %message-shared
+}
+
+
+.exteded{
+    color: #d23e3e;
+}
+
+.super-extended{
+    @extend .exteded
+}
+
+//loop
+
+
+
+@for $i from 1 to 6 {
+    h#{$i}{
+        @include red()
+    }
+
+}
+
+@for $i from 1 to 6 {
+    .p-#{$i}{
+       padding: #{$i}rem;
+    }
+
+    .pt-#{$i}{
+        margin-top: calc(1000px-  #{$i}rem);
+    }
+
+}
+
+
+
+$menu-item : home about services contact;
+
+
+@each $item in $menu-item {
+
+    .#{$item}{
+        color: aquamarine;
+        padding: 20px;
+    }
+    
+}
